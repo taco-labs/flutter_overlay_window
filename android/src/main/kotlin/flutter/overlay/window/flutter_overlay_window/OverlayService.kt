@@ -102,7 +102,7 @@ class OverlayService : Service(), OnTouchListener {
         }
     }
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         isRunning = true
         Log.d("onStartCommand", "Service started")
 
