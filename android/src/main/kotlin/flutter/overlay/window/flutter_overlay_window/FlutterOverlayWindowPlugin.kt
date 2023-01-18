@@ -23,9 +23,12 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.PluginRegistry.ActivityResultListener
 
-
-class FlutterOverlayWindowPlugin : FlutterPlugin, ActivityAware,
-    BasicMessageChannel.MessageHandler<Any?>, MethodCallHandler, ActivityResultListener {
+class FlutterOverlayWindowPlugin :
+    FlutterPlugin,
+    ActivityAware,
+    BasicMessageChannel.MessageHandler<Any?>,
+    MethodCallHandler,
+    ActivityResultListener {
     private lateinit var channel: MethodChannel
     private lateinit var context: Context
     private lateinit var mActivity: Activity
@@ -50,7 +53,6 @@ class FlutterOverlayWindowPlugin : FlutterPlugin, ActivityAware,
         WindowSetup.messenger = messenger
         WindowSetup.messenger!!.setMessageHandler(this)
     }
-
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
         mActivity = binding.activity
@@ -83,11 +85,12 @@ class FlutterOverlayWindowPlugin : FlutterPlugin, ActivityAware,
             else -> result.notImplemented()
         }
 
-
     private fun checkOverlayPermission(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Settings.canDrawOverlays(context)
-        } else true
+        } else {
+            true
+        }
     }
 
     private fun requestOverlayPermission(result: MethodChannel.Result) {
@@ -129,14 +132,14 @@ class FlutterOverlayWindowPlugin : FlutterPlugin, ActivityAware,
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         // start overlay service in foreground if app isn't running
-        if (appInBackground() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Log.d("OverlayPlugin", "Starting service in foreground..")
-            context.startForegroundService(intent)
-        } else {
-            // start overlay service in background
-            Log.d("OverlayPlugin", "Starting service in background..")
-            context.startService(intent)
-        }
+        // if (appInBackground() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        //     Log.d("OverlayPlugin", "Starting service in foreground..")
+        //     context.startForegroundService(intent)
+        // } else {
+        // start overlay service in background
+        Log.d("OverlayPlugin", "Starting service in background..")
+        context.startService(intent)
+        // }
         // service started, notify from Result
         result.success(null)
     }
