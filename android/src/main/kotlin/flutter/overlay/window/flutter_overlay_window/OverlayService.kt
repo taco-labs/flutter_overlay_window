@@ -86,6 +86,7 @@ class OverlayService : Service(), OnTouchListener {
             .setSmallIcon(if (notifyIcon == 0) R.drawable.notification_icon else notifyIcon)
             .setContentIntent(pendingIntent)
             .setVisibility(WindowSetup.notificationVisibility)
+            .setSilent(true)
             .build()
         startForeground(OverlayConstants.NOTIFICATION_ID, notification)
     }
